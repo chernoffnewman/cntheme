@@ -20,17 +20,24 @@ function add_to_context($data) {
 	$data['menu'] = new TimberMenu('primary');
 	
 	/** Body classes **/
-	global $post;
-	$template = substr(basename( get_page_template() ),0,-4);
-	$slug = get_post( $post )->post_name;
-	$data['page_class'] = "{$template} {$slug}";
+  if (is_category() === false && is_search() === false && is_404() === false) {
+    global $post;
+    $template = substr(basename(get_page_template()), 0, -4);
+    $slug = get_post($post)->post_name;
 
-	$data['page_title'] = $post->post_title;
+    $data['page_class'] = "{$template} {$slug}";
 
-	/** Check if admin bar is visible, and add class to body if it is **/
-	if ( is_admin_bar_showing() ) { 
-		$data['page_class'] .= " logged-in";
-	}
+    $data['page_title'] = $post->post_title;
+  }
+
+  /** Check if admin bar is visible, and add class to body if it is **/
+  if (is_admin_bar_showing()) {
+    if (isset($data['page_class']) === false) {
+      $data['page_class'] = '';
+    }
+
+    $data['page_class'] .= " logged-in";
+  }
 	
 	/** Header / Footer hooks **/
 	$data['wp_head'] = TimberHelper::function_wrapper( 'wp_head()' );

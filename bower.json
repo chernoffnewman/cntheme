@@ -1,17 +1,7 @@
 {
   "name": "cntheme",
-  "version": "0.0.0",
   "authors": [
-    "Jonathan Mayhak <jonathan.mayhak@chernoffnewman.com>"
-  ],
-  "license": "MIT",
-  "private": true,
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
+    "Chernoff Newman <developer@chernoffnewman.com>"
   ],
   "dependencies": {
     "bootstrap": "~3.3.4",

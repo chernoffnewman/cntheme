@@ -1,0 +1,17 @@
+{
+  "description": "",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Chernoff Newman",
+      "email": "developer@chernoffnewman.com"
+    }
+  ],
+  "require": {
+    "nesbot/carbon": "1.18.0",
+    "j7mbo/twitter-api-php": "dev-master",
+    "facebook/php-sdk": "@stable",
+    "guzzle/guzzle": "3.9.*"
+  }
+}

@@ -1,10 +1,22 @@
-<?php 
+<?php
 
-// load all php files in functions folder
-$files = preg_grep('/^([^.])/', scandir(dirname(__FILE__).'/functions/'));
-foreach ($files as $filename) {
-    $path = dirname(__FILE__) . '/functions/' . $filename;
-    if (is_file($path)) {
-      require $path;
+// load up composer dependencies
+use App\Model\Bootstrap;
+
+include('vendor/autoload.php');
+
+spl_autoload_register(function ($class) {
+    $prefix = 'App\\';
+    $base_dir = __DIR__ . '/src/App/';
+    $len = strlen($prefix);
+    if (0 !== strncmp($prefix, $class, $len)) {
+        return;
     }
-}
+    $relative_class = substr($class, $len);
+    $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
+    if (file_exists($file)) {
+        require $file;
+    }
+});
+
+Bootstrap::init();

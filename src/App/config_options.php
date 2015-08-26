@@ -37,15 +37,29 @@ $config_options = array(
         )
     ),
 
-    // TODO: move to CN Options page
     // the top black bar when viewing the website and logged into WP
     'always_hide_admin_bar' => false,
 
-    // TODO: move to CN Options page
     // this is a custom number pad for all traffic
     'require_auth' => false,
 
-    // TODO: move to CN Options page
     // set the url for this typekit kit
-    'typekit_src' => ''
+    'typekit_src' => '',
+
+    // set the logo on the login page
+    'login_logo_src' => get_template_directory_uri() . '/img/cn-logo.png',
+
+    // social options
+    'social' => array(
+        'instagram' => array(
+            'support_approval_workflow' => true,
+            'default_username' => ''
+        ),
+        'twitter' => array(
+            'default_username' => ''
+        ),
+        'facebook' => array(
+            'default_username' => ''
+        )
+    )
 );

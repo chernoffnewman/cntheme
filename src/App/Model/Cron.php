@@ -1,11 +1,22 @@
 <?php namespace App\Model;
 
+use App\Controller\Instagram;
+
 class Cron
 {
     public static function init()
     {
         define('DISABLE_WP_CRON', true);
         add_filter('cron_schedules', array(__CLASS__, 'wi_add_weekly_schedule'));
+
+        $social_settings = Config::getSocialOptions();
+
+        if (isset($social_settings['instagram']['support_approval_workflow']) &&
+            $social_settings['instagram']['support_approval_workflow'] === true
+        ) {
+            Instagram::initCronJobs();
+        }
+
     }
 
     public static function wi_add_weekly_schedule($schedules)

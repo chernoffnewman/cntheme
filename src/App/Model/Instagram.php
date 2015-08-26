@@ -4,14 +4,14 @@ use Carbon\Carbon;
 
 class Instagram extends \TimberPost
 {
-    private static $_settings = null;
+    use SocialSettings;
+
     private static $_postType;
     private static $_label_title;
 
     const SETTINGS_FIELD = 'app_social_options';
     const SETTINGS_FIELD_INSTAGRAM_TOKEN = 'instagram_token';
     const SETTINGS_FIELD_MAX_TAG_ID = 'instagram_max_tag_id';
-    const SETTINGS_FIELD_USER_ID = 'instagram_user_id';
     const SETTINGS_FIELD_CLIENT_ID = 'instagram_client_id';
     const SETTINGS_FIELD_CLIENT_SECRET = 'instagram_client_secret';
 
@@ -51,6 +51,12 @@ class Instagram extends \TimberPost
         add_action("manage_{$postType}_posts_custom_column", array(get_class(), 'col'), 10, 2);
         add_action('admin_enqueue_scripts', function ($hook) {
             if ($hook !== 'edit.php') {
+                return;
+            }
+
+            global $current_screen;
+
+            if (isset($current_screen->post_type) === false || $current_screen->post_type !== self::$_postType) {
                 return;
             }
 
@@ -98,7 +104,7 @@ class Instagram extends \TimberPost
             'page_title' => 'Settings',
             'menu_title' => 'Settings',
             'sub_menu' => 'edit.php?post_type=app_instagram',
-            'capability' => 'manage_options',
+            'capability' => 'manage_content',
             'menu_slug' => 'instagram-settings',
             'setting' => 'app_instagram_settings',
             'save_text' => 'Save Settings'
@@ -191,10 +197,19 @@ class Instagram extends \TimberPost
 
     public static function registerCPT($post_types)
     {
+        $is_public = true;
+        $social_settings = Config::getSocialOptions();
+
+        if (isset($social_settings['instagram']['support_approval_workflow']) &&
+            $social_settings['instagram']['support_approval_workflow'] === false
+        ) {
+            $is_public = false;
+        }
+
         $post_types[self::$_postType] = array(
             'labels' => piklist('post_type_labels', self::$_label_title),
             'title' => __('Instagrams'),
-            'public' => true,
+            'public' => $is_public,
             'rewrite' => array(
                 'slug' => 'i'
             ),
@@ -317,21 +332,6 @@ class Instagram extends \TimberPost
         return $posts;
     }
 
-    private static function _getSocialSettingByKey($key)
-    {
-        $settings = self::_getSocialSettings();
-        return (isset($settings[$key])) ? $settings[$key] : null;
-    }
-
-    private static function _getSocialSettings()
-    {
-        if (self::$_settings === null) {
-            self::$_settings = get_option(self::SETTINGS_FIELD);
-        }
-
-        return self::$_settings;
-    }
-
     public static function getClientId()
     {
         return self::_getSocialSettingByKey(self::SETTINGS_FIELD_CLIENT_ID);
@@ -347,11 +347,6 @@ class Instagram extends \TimberPost
         return self::_getSocialSettingByKey(self::SETTINGS_FIELD_INSTAGRAM_TOKEN);
     }
 
-    public static function getUserId()
-    {
-        return self::_getSocialSettingByKey(self::SETTINGS_FIELD_USER_ID);
-    }
-
     public function getMediaById($media_id)
     {
         $result = Helper::fetchData("https://api.instagram.com/v1/media/" . $media_id . "/?access_token=" . self::getAccessToken());
@@ -362,6 +357,12 @@ class Instagram extends \TimberPost
         }
 
         return false;
+    }
+
+    public static function getDefaultUsername()
+    {
+        $social_options = Config::getSocialOptions();
+        return (isset($social_options['instagram']['default_username'])) ? $social_options['instagram']['default_username'] : '';
     }
 
     public static function getRecentByTag($tag, $count = 20)
@@ -388,6 +389,40 @@ class Instagram extends \TimberPost
             } else {
                 $result = null;
             }
+        }
+
+        return $data;
+    }
+
+    public static function getRecentByUser($user_id, $count = 10)
+    {
+        $fetch_url = "https://api.instagram.com/v1/users/" . $user_id . "/media/recent/?access_token=" . self::getAccessToken();
+
+        $result = Helper::fetchData($fetch_url);
+        $result = json_decode($result);
+
+        $data = array();
+        while (isset($result->data) && empty($result->data) === false) {
+            foreach ($result->data as $post) {
+                $instance = new Instagram();
+                $instance->social_post_image_src = $post->images->standard_resolution->url;
+                $instance->social_post_link = $post->link;
+                $instance->social_post_type = 'instagram';
+                $data[] = $instance;
+            }
+
+            if (count($data) < $count && isset($result->pagination->next_url)) {
+                // still need some more images and there's more to get
+                $fetch_url = $result->pagination->next_url;
+                $result = Helper::fetchData($fetch_url);
+                $result = json_decode($result);
+            } else {
+                $result = null;
+            }
+        }
+
+        if (count($data) > $count) {
+            $data = array_splice($data, 0, $count);
         }
 
         return $data;

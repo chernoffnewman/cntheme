@@ -9,16 +9,17 @@ Setting: app_social_options
 
 <p>Tutorial on generating an access token: <a href="http://jelled.com/instagram/access-token">http://jelled.com/instagram/access-token</a></p>
 <p>How to get Instagram User Id: <a href="http://jelled.com/instagram/lookup-user-id#">http://jelled.com/instagram/lookup-user-id#</a></p>
+<p>How to get Facebook Access Token: <a href="https://developers.facebook.com/tools/access_token">https://developers.facebook.com/tools/access_token</a></p>
 <?php
 
+use App\Model\Facebook;
 use App\Model\Instagram;
+use App\Model\Twitter;
 
 piklist('field', array(
 		'type' => 'text',
-		'scope' => 'post_meta',
 		'field' => Instagram::SETTINGS_FIELD_INSTAGRAM_TOKEN,
-		'label' => __('Instagram Token'),
-//		'description' => __('ex. '),
+		'label' => __('Instagram Access Token'),
 		'columns' => 12,
 		'attributes' => array(
 			'class' => 'text'
@@ -28,23 +29,8 @@ piklist('field', array(
 
 piklist('field', array(
 		'type' => 'text',
-		'scope' => 'post_meta',
-		'field' => Instagram::SETTINGS_FIELD_USER_ID,
-		'label' => __('Instagram User Id'),
-//		'description' => __('ex. '),
-		'columns' => 12,
-		'attributes' => array(
-			'class' => 'text'
-		),
-		'position' => 'wrap'
-	));
-
-piklist('field', array(
-		'type' => 'text',
-		'scope' => 'post_meta',
 		'field' => Instagram::SETTINGS_FIELD_CLIENT_ID,
 		'label' => __('Instagram Client Id'),
-//		'description' => __('ex. '),
 		'columns' => 12,
 		'attributes' => array(
 			'class' => 'text'
@@ -54,10 +40,8 @@ piklist('field', array(
 
 piklist('field', array(
 		'type' => 'text',
-		'scope' => 'post_meta',
 		'field' => Instagram::SETTINGS_FIELD_CLIENT_SECRET,
 		'label' => __('Instagram Client Secret'),
-//		'description' => __('ex. '),
 		'columns' => 12,
 		'attributes' => array(
 			'class' => 'text'
@@ -67,10 +51,8 @@ piklist('field', array(
 
 piklist('field', array(
 		'type' => 'text',
-		'scope' => 'post_meta',
-		'field' => 'twitter_access_token',
+	'field' => Twitter::SETTINGS_FIELD_ACCESS_TOKEN,
 		'label' => __('Twitter Access Token'),
-//		'description' => __('ex. '),
 		'columns' => 12,
 		'attributes' => array(
 			'class' => 'text'
@@ -80,10 +62,8 @@ piklist('field', array(
 
 piklist('field', array(
 		'type' => 'text',
-		'scope' => 'post_meta',
-		'field' => 'twitter_access_token_secret',
+	'field' => Twitter::SETTINGS_FIELD_ACCESS_TOKEN_SECRET,
 		'label' => __('Twitter Access Token Secret'),
-//		'description' => __('ex. '),
 		'columns' => 12,
 		'attributes' => array(
 			'class' => 'text'
@@ -93,10 +73,8 @@ piklist('field', array(
 
 piklist('field', array(
 		'type' => 'text',
-		'scope' => 'post_meta',
-		'field' => 'twitter_consumer_key',
+	'field' => Twitter::SETTINGS_FIELD_CONSUMER_KEY,
 		'label' => __('Twitter Consumer Key'),
-//		'description' => __('ex. '),
 		'columns' => 12,
 		'attributes' => array(
 			'class' => 'text'
@@ -106,23 +84,8 @@ piklist('field', array(
 
 piklist('field', array(
 		'type' => 'text',
-		'scope' => 'post_meta',
-		'field' => 'twitter_consumer_secret',
+	'field' => Twitter::SETTINGS_FIELD_CONSUMER_SECRET,
 		'label' => __('Twitter Consumer Secret'),
-//		'description' => __('ex. '),
-		'columns' => 12,
-		'attributes' => array(
-			'class' => 'text'
-		),
-		'position' => 'wrap'
-	));
-
-piklist('field', array(
-		'type' => 'text',
-		'scope' => 'post_meta',
-		'field' => 'twitter_screen_name',
-		'label' => __('Twitter Screen Name'),
-		'description' => __('ex. ChernoffNewman'),
 		'columns' => 12,
 		'attributes' => array(
 			'class' => 'text'
@@ -132,10 +95,8 @@ piklist('field', array(
 
 piklist( 'field', array(
 	'type'        => 'text',
-	'scope'       => 'post_meta',
-	'field'       => 'facebook_app_id',
+	'field' => Facebook::SETTINGS_FIELD_APP_ID,
 	'label'       => __( 'Facebook App Id' ),
-	'description' => __( '' ),
 	'columns'     => 12,
 	'attributes'  => array(
 		'class' => 'text'
@@ -145,10 +106,8 @@ piklist( 'field', array(
 
 piklist( 'field', array(
 	'type'        => 'text',
-	'scope'       => 'post_meta',
-	'field'       => 'facebook_secret',
+	'field' => Facebook::SETTINGS_FIELD_SECRET,
 	'label'       => __( 'Facebook Secret' ),
-	'description' => __( '' ),
 	'columns'     => 12,
 	'attributes'  => array(
 		'class' => 'text'
@@ -158,15 +117,11 @@ piklist( 'field', array(
 
 piklist( 'field', array(
 	'type'        => 'text',
-	'scope'       => 'post_meta',
-	'field'       => 'facebook_user_token',
-	'label'       => __( 'Facebook User Token' ),
-	'description' => __( '' ),
+	'field' => Facebook::SETTINGS_FIELD_ACCESS_TOKEN,
+	'label' => __('Facebook Access Token'),
 	'columns'     => 12,
 	'attributes'  => array(
 		'class' => 'text'
 	),
 	'position'    => 'wrap'
 ) );
-
-

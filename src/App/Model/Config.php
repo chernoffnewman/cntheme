@@ -11,7 +11,9 @@ class Config
     private static $_keyPrefix = 'app_';
     private static $_requireAuth = false;
     private static $_requiredPlugins = array();
-
+    private static $_typekit_src;
+    private static $_login_logo_src;
+    private static $_social_options;
 
     public static function init()
     {
@@ -34,6 +36,29 @@ class Config
         self::$_stagingDomains = $config_options['staging_domains'];
         self::$_requireAuth = $config_options['require_auth'];
         self::$_requiredPlugins = $config_options['required_plugins'];
+        self::$_typekit_src = $config_options['typekit_src'];
+        self::$_login_logo_src = $config_options['login_logo_src'];
+        self::$_social_options = $config_options['social'];
+    }
+
+    public static function getSocialOptions()
+    {
+        return self::$_social_options;
+    }
+
+    public static function generateTransientKey($key)
+    {
+        return $key . self::getAppVersion();
+    }
+
+    public static function getLoginLogoSrc()
+    {
+        return self::$_login_logo_src;
+    }
+
+    public static function getTypekitSrc()
+    {
+        return self::$_typekit_src;
     }
 
     /**

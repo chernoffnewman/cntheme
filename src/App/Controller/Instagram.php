@@ -1,8 +1,8 @@
 <?php namespace App\Controller;
 
 use App\Model\Helper;
-use Guzzle\Http\Client;
-use Guzzle\Http\Exception\ClientErrorResponseException;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 
 class Instagram extends Router
 {
@@ -37,7 +37,7 @@ class Instagram extends Router
                 $body = $response->getBody();
                 $echo = json_decode($body);
                 self::renderJSON($echo, 200);
-            } catch (ClientErrorResponseException $ex) {
+            } catch (ClientException $ex) {
                 echo '<pre>';
                 print_r($ex);
                 echo '</pre>';

@@ -10,8 +10,10 @@
   ],
   "require": {
     "nesbot/carbon": "1.18.0",
-    "j7mbo/twitter-api-php": "dev-master",
-    "facebook/php-sdk": "@stable",
-    "guzzle/guzzle": "3.9.*"
+    "facebook/php-sdk-v4": "~5.0",
+    "guzzlehttp/guzzle": "~6.0"
+  },
+  "autoload": {
+    "files": ["inc/TwitterAPIExchange.php"]
   }
 }

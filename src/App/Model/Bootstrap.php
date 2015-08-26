@@ -5,8 +5,6 @@ class Bootstrap
 
     public static function init()
     {
-        session_start();
-
         Config::init();
         Routes::init();
         Cron::init();
@@ -15,6 +13,7 @@ class Bootstrap
         AdminArea::init();
         Social::init();
         Analytics::init();
+        VisualEditor::init();
 
         add_theme_support('post-thumbnails');
         add_theme_support('menus');
@@ -24,8 +23,7 @@ class Bootstrap
         if (class_exists('Timber')) {
             self::_registerCustomPostTypes();
 
-            add_filter('timber_context', array(get_class(), 'registerMenu'));
-            add_filter('timber_context', array(get_class(), 'addToTimberContext'));
+            TimberContext::init();
 
             \Timber::$dirname = '/src/App/View';
         }
@@ -51,18 +49,6 @@ class Bootstrap
                 AdminArea::addUpdateNagNotice(sprintf('Required Plugin Missing: <a href="%s">%s</a>', $required_plugin['url'], $required_plugin['title']));
             }
         }
-    }
-
-    public static function addToTimberContext($data)
-    {
-        return $data;
-    }
-
-    public static function registerMenu($data)
-    {
-        $data['menu'] = new \TimberMenu();
-
-        return $data;
     }
 
     private static function _registerCustomPostTypes()

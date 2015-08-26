@@ -26,7 +26,7 @@ class Analytics
         $pages[] = array(
             'page_title' => __('Analytics', Config::getTextDomain()),
             'menu_title' => __('Analytics', Config::getTextDomain()),
-            'capability' => 'manage_content',
+            'capability' => 'manage_options',
             'menu_slug' => 'analytics-options',
             'setting' => 'app_analytics_options',
             'save_text' => 'Save settings'

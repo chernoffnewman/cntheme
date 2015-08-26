@@ -1,55 +1,80 @@
 <?php namespace App\Model;
 
-class Twitter
+class Twitter extends Social
 {
+    use SocialSettings;
 
-    public $user;
-    public $message;
-    public $created_time;
-    public $post_type = 'twitter';
-    public $link;
+    const SETTINGS_FIELD_ACCESS_TOKEN = 'twitter_access_token';
+    const SETTINGS_FIELD_ACCESS_TOKEN_SECRET = 'twitter_access_token_secret';
+    const SETTINGS_FIELD_CONSUMER_KEY = 'twitter_consumer_key';
+    const SETTINGS_FIELD_CONSUMER_SECRET = 'twitter_consumer_secret';
 
-    private static $_access_token;
-    private static $_access_token_secret;
-    private static $_consumer_key;
-    private static $_consumer_secret;
+    const API_BASE_URL = 'https://api.twitter.com/1.1/';
 
-    public static function getRecentTweets($num_items = 1)
+    public static function getAccessToken()
     {
-        $social_options = get_option('app_social_options');
+        return self::_getSocialSettingByKey(self::SETTINGS_FIELD_ACCESS_TOKEN);
+    }
+
+    public static function getAccessTokenSecret()
+    {
+        return self::_getSocialSettingByKey(self::SETTINGS_FIELD_ACCESS_TOKEN_SECRET);
+    }
+
+    public static function getConsumerKey()
+    {
+        return self::_getSocialSettingByKey(self::SETTINGS_FIELD_CONSUMER_KEY);
+    }
+
+    public static function getConsumerSecret()
+    {
+        return self::_getSocialSettingByKey(self::SETTINGS_FIELD_CONSUMER_SECRET);
+    }
+
+    public static function getDefaultUsername()
+    {
+        $social_options = Config::getSocialOptions();
+        return (isset($social_options['twitter']['default_username'])) ? $social_options['twitter']['default_username'] : '';
+    }
+
+    public static function getRecentTweetsByUser($user, $num_items = 10)
+    {
+        $recent_tweets = array();
 
         $settings = array(
-            'oauth_access_token' => '15379442-9z3XzkxjxyTaHBMfxswpSRwQyCUOMLFHO8mPZqUHC',
-            'oauth_access_token_secret' => 'DKDjX1dMcqsFikBX0omJihDLsNP98gqvDYwheF8n9VaKJ',
-            'consumer_key' => 'zqLLgzq14spLMJSN7kFhJ94XT',
-            'consumer_secret' => 'MCZ301GagOxeIDpbINrZR6BEg6mWy8UY5POwX9pcEMoKBGwi3M'
+            'oauth_access_token' => self::getAccessToken(),
+            'oauth_access_token_secret' => self::getAccessTokenSecret(),
+            'consumer_key' => self::getConsumerKey(),
+            'consumer_secret' => self::getConsumerSecret()
         );
-
-        $url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
-        $getfield = '?screen_name=Certified_SC&count=' . $num_items . '&exclude_replies=true';
-        $requestMethod = 'GET';
 
         try {
             $twitter = new \TwitterAPIExchange($settings);
-            $twitter_response_as_json = $twitter->setGetfield($getfield)
-                ->buildOauth($url, $requestMethod)
+            $twitter_response_as_json = $twitter->setGetfield('?' . http_build_query(array(
+                    'screen_name' => $user,
+                    'count' => $num_items
+                )))
+                ->buildOauth(self::API_BASE_URL . 'statuses/user_timeline.json', 'GET')
                 ->performRequest();
         } catch (\Exception $ex) {
-            // likely, settings aren't set
-            return array();
+            Logger::error('Failed to pull recent tweets');
+            return $recent_tweets;
         }
-
 
         $twitter_response = json_decode($twitter_response_as_json);
 
-        $recent_tweets = array();
+        if ($twitter_response === null || $twitter_response === false) {
+            return $recent_tweets;
+        }
+
         if (is_array($twitter_response)) {
             foreach ($twitter_response as $row) {
                 $tweet = new Twitter();
-                $tweet->user = $row->user->screen_name;
-                $tweet->message = $row->text;
-                $tweet->created_time = $row->created_at;
-                $tweet->link = 'https://twitter.com/' . $row->user->screen_name . '/status' . $row->id;
+                $tweet->social_post_name = $row->user->screen_name;
+                $tweet->social_post_message = $row->text;
+                $tweet->social_post_created_time = $row->created_at;
+                $tweet->social_post_link = 'https://twitter.com/' . $row->user->screen_name . '/status/' . $row->id;
+                $tweet->social_post_type = 'twitter';
 
                 $recent_tweets[] = $tweet;
             }

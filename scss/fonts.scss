@@ -1,0 +1,58 @@
+//Import Fonts
+
+//Set font variables
+
+@media screen {
+
+
+
+    html, body {
+        color: $black;
+        font-size: 1em;
+        //    font-family: $sans;
+        line-height: 1.5;
+    }
+
+    //Styles for Page Content
+
+    h1, h2, h3, h4, h5, h6 {
+//        font-family: $sans;
+        line-height: 1.5;
+        font-weight: 400;
+        text-transform: uppercase;
+    }
+
+    h1 {
+        font-size: 2.5em;
+    }
+
+    h2 {
+        font-size: 2.25em;
+    }
+
+    h3 {
+        font-size: 2em;
+    }
+
+    h4 {
+        font-size: 1.75em;
+    }
+
+    h5 {
+        font-size: 1.5em;
+    }
+
+    h6 {
+        font-size: 1.25em;
+    }
+
+    p, ol, ul {
+        font-size: 1.125em;
+        line-height: 1.5;
+
+        @media (max-width: $screen-sm-max) {
+            font-size: 15px;
+        }
+    }
+}
+

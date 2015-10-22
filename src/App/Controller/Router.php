@@ -10,4 +10,10 @@ abstract class Router
         echo json_encode($message);
         exit();
     }
+
+    protected static function verifyNonce($action = '')
+    {
+        $headers = getallheaders();
+        return (false === isset($headers['X-Wp-Nonce']) || false !== wp_verify_nonce($headers['X-Wp-Nonce'], $action));
+    }
 }

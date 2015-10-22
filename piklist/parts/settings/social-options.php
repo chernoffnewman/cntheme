@@ -15,6 +15,7 @@ Setting: app_social_options
 use App\Model\Facebook;
 use App\Model\Instagram;
 use App\Model\Twitter;
+use App\Model\YouTube;
 
 piklist('field', array(
 		'type' => 'text',
@@ -125,3 +126,10 @@ piklist( 'field', array(
 	),
 	'position'    => 'wrap'
 ) );
+
+piklist ('field', array(
+	'type' => 'text',
+	'field' => YouTube::SETTINGS_FIELD_API_KEY,
+	'label' => 'YouTube API Key',
+	'columns' => 12
+));

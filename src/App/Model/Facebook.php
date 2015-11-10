@@ -40,12 +40,18 @@ class Facebook
 
     public static function getRecentPostsForPage($page_name, $num_posts = 8)
     {
-        $fb = new \Facebook\Facebook(array(
-            'app_id' => self::getAppId(),
-            'app_secret' => self::getSecret(),
-            'default_graph_version' => 'v2.4',
-            'default_access_token' => self::getAccessToken()
-        ));
+        try {
+            $fb = new \Facebook\Facebook(array(
+                'app_id' => self::getAppId(),
+                'app_secret' => self::getSecret(),
+                'default_graph_version' => 'v2.4',
+                'default_access_token' => self::getAccessToken()
+            ));
+        } catch (FacebookSDKException $ex) {
+            Logger::warning('Missing Facebook API credentials');
+            return array();
+        }
+
 
         $posts = array();
             try {

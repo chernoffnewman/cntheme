@@ -383,9 +383,13 @@ class Instagram extends \TimberPost
             $last_instance = $data[count($data) - 1];
             if (Instagram::findByInstagramId($last_instance->id) === false) {
                 // the last returned image is not in the db... we need to continue to the next page
-                $fetch_url = $result->pagination->next_url;
-                $result = Helper::fetchData($fetch_url);
-                $result = json_decode($result);
+                if (isset($result->pagination->next_url)) {
+                    $fetch_url = $result->pagination->next_url;
+                    $result = Helper::fetchData($fetch_url);
+                    $result = json_decode($result);
+                } else {
+                    $result = null;
+                }
             } else {
                 $result = null;
             }

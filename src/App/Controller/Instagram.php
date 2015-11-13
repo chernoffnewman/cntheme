@@ -1,5 +1,6 @@
 <?php namespace App\Controller;
 
+use App\Model\Config;
 use App\Model\Helper;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -16,6 +17,17 @@ class Instagram extends Router
                 exit($_GET['hub.challenge']);
             }
 
+            $social_options = Config::getSocialOptions();
+            $tag = isset($social_options['instagram']['tag_to_track_for_approval_workflow']) ?
+                $social_options['instagram']['tag_to_track_for_approval_workflow'] :
+                false;
+
+            if ($tag === false) {
+                self::renderJSON(array(
+                    'msg' => 'Error: no tag set to track'
+                ), 500);
+            }
+
             // initiate a new subscription
             $client = new Client('https://api.instagram.com');
             $request = $client->post('/v1/subscriptions/');
@@ -24,7 +36,7 @@ class Instagram extends Router
                 'client_secret' => \App\Model\Instagram::getClientSecret(),
                 'object' => 'tag',
                 'aspect' => 'media',
-                'object_id' => 'zooplaydate',
+                'object_id' => $tag,
                 'verify_token' => 'blahblahblah',
                 'callback_url' => get_site_url() . '/api/instagram-images'
             ));
@@ -84,11 +96,17 @@ class Instagram extends Router
             $instagram_settings = get_option('app_instagram_settings');
             $emails = (isset($instagram_settings['emails'])) ? $instagram_settings['emails'] : 'developer@chernoffnewman.com';
 
+            $social_options = Config::getSocialOptions();
+            $tag = isset($social_options['instagram']['tag_to_track_for_approval_workflow']) ?
+                $social_options['instagram']['tag_to_track_for_approval_workflow'] :
+                'instagram';
+
             wp_mail(
                 $emails,
-                "#zooplaydate has {$num_instagrams} new images for approval",
+                "#{$tag} has {$num_instagrams} new images for approval",
                 \Timber::compile('emails/new-instagrams.twig', array(
-                    'posts' => $instagrams
+                    'posts' => $instagrams,
+                    'tag' => $tag
                 )),
                 array('Content-Type: text/html; charset=UTF-8', 'From: Chernoff Newman <developer@chernoffnewman.com>')
             );
@@ -104,9 +122,25 @@ class Instagram extends Router
         self::_getNewInstagrams();
     }
 
+    public static function getNewInstagrams()
+    {
+        self::_getNewInstagrams();
+    }
+
     private static function _getNewInstagrams()
     {
-        $recent_feed = \App\Model\Instagram::getRecentByTag('zooplaydate');
+        $social_options = Config::getSocialOptions();
+        $tag = isset($social_options['instagram']['tag_to_track_for_approval_workflow']) ?
+            $social_options['instagram']['tag_to_track_for_approval_workflow'] :
+            false;
+
+        if ($tag === false) {
+            self::renderJSON(array(
+                'msg' => 'Error: no tag set to track'
+            ), 500);
+        }
+
+        $recent_feed = \App\Model\Instagram::getRecentByTag($tag);
         $found = count($recent_feed);
 
         $instagrams = array();

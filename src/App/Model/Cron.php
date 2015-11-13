@@ -16,7 +16,6 @@ class Cron
         ) {
             Instagram::initCronJobs();
         }
-
     }
 
     public static function wi_add_weekly_schedule($schedules)

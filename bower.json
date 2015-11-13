@@ -5,6 +5,7 @@
   ],
   "dependencies": {
     "bootstrap": "~3.3.4",
-    "respond-minmax": "~1.4.2"
+    "respond-minmax": "~1.4.2",
+    "modernizr": "~2.8.3"
   }
 }

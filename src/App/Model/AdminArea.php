@@ -87,7 +87,7 @@ class AdminArea
                 'edit_private_posts' => true,
                 'edit_published_pages' => true,
                 'edit_published_posts' => true,
-                'edit_theme_options' => false,
+                'edit_theme_options' => true,
                 'edit_themes' => false,
                 'edit_users' => false,
                 'export' => false,
@@ -178,12 +178,16 @@ class AdminArea
     public static function customizeAdminMenus()
     {
         if (!current_user_can('activate_plugins')) {
+            global $submenu;
+
             remove_menu_page('edit-comments.php');
             remove_menu_page('users.php');
             remove_menu_page('tools.php');
             remove_submenu_page('edit.php', 'edit-tags.php?taxonomy=post_tag');
+            remove_submenu_page('themes.php', 'themes.php');
+            unset($submenu['themes.php'][6]); // customize.php
+
             remove_menu_page('edit-tags.php?taxonomy=link_category');
-            remove_menu_page('themes.php');
             remove_menu_page('plugins.php');
             remove_menu_page('options-general.php');
             remove_menu_page('piklist');

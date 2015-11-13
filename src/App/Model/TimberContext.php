@@ -23,6 +23,7 @@ class TimberContext
         $data['use_ga'] = Analytics::shouldIncludeGoogleAnalytics();
         $data['ga_code'] = Analytics::getGoogleAnalyticsCode();
         $data['use_crazyegg'] = Analytics::shouldIncludeCrazyEgg();
+        $data['add_this_src'] = Config::getAddThisSrc();
 
         return $data;
     }

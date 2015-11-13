@@ -1,22 +1,20 @@
 <?php
 
-// load up composer dependencies
-use App\Model\Bootstrap;
-
 include('vendor/autoload.php');
 
-spl_autoload_register(function ($class) {
-    $prefix = 'App\\';
-    $base_dir = __DIR__ . '/src/App/';
-    $len = strlen($prefix);
-    if (0 !== strncmp($prefix, $class, $len)) {
-        return;
+// this function is apache only. make it for nginx too
+// http://www.php.net/manual/en/function.getallheaders.php#84262
+if (!function_exists('getallheaders')) {
+    function getallheaders()
+    {
+        $headers = '';
+        foreach ($_SERVER as $name => $value) {
+            if (substr($name, 0, 5) == 'HTTP_') {
+                $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+            }
+        }
+        return $headers;
     }
-    $relative_class = substr($class, $len);
-    $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
-    if (file_exists($file)) {
-        require $file;
-    }
-});
+}
 
-Bootstrap::init();
+\App\Model\Bootstrap::init();

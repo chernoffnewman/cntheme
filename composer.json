@@ -14,6 +14,11 @@
     "guzzlehttp/guzzle": "~6.0"
   },
   "autoload": {
-    "files": ["inc/TwitterAPIExchange.php"]
+    "files": ["inc/TwitterAPIExchange.php"],
+    "psr-4": {"App\\": "src/App/"}
+  },
+  "require-dev": {
+    "10up/wp_mock": "dev-master",
+    "phpunit/phpunit": "^4.8"
   }
 }

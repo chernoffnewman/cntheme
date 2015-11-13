@@ -111,6 +111,12 @@ class TwitterAPIExchange
             $array['status'] = sprintf("\0%s", $array['status']);
         }
 
+        foreach ($array as $key => &$value) {
+            if (is_bool($value)) {
+                $value = ($value === true) ? 'true' : 'false';
+            }
+        }
+
         $this->postfields = $array;
 
         // rebuild oAuth

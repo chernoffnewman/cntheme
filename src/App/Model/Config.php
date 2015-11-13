@@ -14,6 +14,7 @@ class Config
     private static $_typekit_src;
     private static $_login_logo_src;
     private static $_social_options;
+    private static $_add_this_src;
 
     public static function init()
     {
@@ -39,6 +40,7 @@ class Config
         self::$_typekit_src = $config_options['typekit_src'];
         self::$_login_logo_src = $config_options['login_logo_src'];
         self::$_social_options = $config_options['social'];
+        self::$_add_this_src = $config_options['add_this_src'];
     }
 
     public static function getSocialOptions()
@@ -59,6 +61,11 @@ class Config
     public static function getTypekitSrc()
     {
         return self::$_typekit_src;
+    }
+
+    public static function getAddThisSrc()
+    {
+        return self::$_add_this_src;
     }
 
     /**

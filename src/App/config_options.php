@@ -46,6 +46,9 @@ $config_options = array(
     // set the url for this typekit kit
     'typekit_src' => '',
 
+    // set the src for add this
+    'add_this_src' => '//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-55fb015f8f7cff12',
+
     // set the logo on the login page
     'login_logo_src' => get_template_directory_uri() . '/img/cn-logo.png',
 
@@ -59,6 +62,9 @@ $config_options = array(
             'default_username' => ''
         ),
         'facebook' => array(
+            'default_username' => ''
+        ),
+        'youtube' => array(
             'default_username' => ''
         )
     )

@@ -1,11 +1,22 @@
 {
   "name": "cntheme",
+  "homepage": "https://github.com/chernoffnewman/cntheme",
   "authors": [
-    "Chernoff Newman <developer@chernoffnewman.com>"
+    "Joseph Lemmons <joseph.lemmons@chernoffnewman.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
   ],
   "dependencies": {
-    "bootstrap": "~3.3.4",
-    "respond-minmax": "~1.4.2",
-    "modernizr": "~2.8.3"
+    "popper": "1.12.3",
+    "bootstrap": "v4.0.0-beta",
+    "Modernizr": "https://modernizr.com/download/?-ambientlight-appearance-applicationcache-arrow-audio-backgroundblendmode-backgroundsize-bgpositionshorthand-bgpositionxy-bgrepeatspace_bgrepeatround-bgsizecover-borderradius-boxshadow-boxsizing-canvasblending-canvastext-checked-contains-contextmenu-cssanimations-csscalc-csscolumns-cssfilters-csspointerevents-csspositionsticky-cssreflections-cssremunit-csstransforms-csstransforms3d-csstransformslevel2-csstransitions-cssvhunit-cssvmaxunit-cssvminunit-cssvwunit-customelements-displaytable-emoji-es5-es5array-es5date-es5function-es5object-es5string-es5syntax-es5undefined-es6array-es6collections-es6math-es6number-es6object-es6string-eventlistener-flash-flexbox-flexboxlegacy-flexboxtweener-fontface-formvalidation-fullscreen-generatedcontent-generators-geolocation-hidden-hiddenscroll-hovermq-indexeddb-inlinesvg-input-inputtypes-json-lastchild-lowbandwidth-mediaqueries-multiplebgs-nthchild-opacity-overflowscrolling-promises-queryselector-rgba-scrollsnappoints-shapes-siblinggeneral-strictmode-svg-svgasimg-svgclippaths-svgfilters-target-textalignlast-textshadow-touchevents-video-videoautoplay-webgl-websqldatabase-wrapflow-setclasses.zip"
   }
 }

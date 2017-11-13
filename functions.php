@@ -1,20 +1,76 @@
 <?php
 
-include('vendor/autoload.php');
-
-// this function is apache only. make it for nginx too
-// http://www.php.net/manual/en/function.getallheaders.php#84262
-if (!function_exists('getallheaders')) {
-    function getallheaders()
-    {
-        $headers = '';
-        foreach ($_SERVER as $name => $value) {
-            if (substr($name, 0, 5) == 'HTTP_') {
-                $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
-            }
-        }
-        return $headers;
-    }
+// If the Timber plugin isn't activated, print a notice in the admin.
+if ( ! class_exists( 'Timber' ) ) {
+	add_action( 'admin_notices', function() {
+			echo '<div class="error"><p>Timber not activated. Make sure you activate the plugin in <a href="' . esc_url( admin_url( 'plugins.php#timber' ) ) . '">' . esc_url( admin_url( 'plugins.php' ) ) . '</a></p></div>';
+		} );
+	return;
 }
 
-\App\Model\Bootstrap::init();
+
+// Hide admin bar by default
+add_filter('show_admin_bar', '__return_false');
+
+
+// Enqueue assets
+require_once('lib/assets.php');
+
+
+// Create our version of the TimberSite object
+class cnThemeBasic extends TimberSite {
+
+	// This function applies some fundamental WordPress setup, as well as our functions to include custom post types and taxonomies.
+	function __construct() {
+		add_theme_support( 'post-formats' );
+		add_theme_support( 'post-thumbnails' );
+		add_theme_support( 'menus' );
+		add_filter( 'timber_context', array( $this, 'add_to_context' ) );
+		add_filter( 'get_twig', array( $this, 'add_to_twig' ) );
+		add_action( 'init', array( $this, 'register_post_types' ) );
+		add_action( 'init', array( $this, 'register_taxonomies' ) );
+		add_action( 'init', array( $this, 'register_menus' ) );
+		add_action( 'init', array( $this, 'register_widgets' ) );
+		parent::__construct();
+	}
+
+
+	// Register seperate function files
+	function register_post_types(){
+		require('lib/custom-types.php');
+	}
+
+	function register_taxonomies(){
+		require('lib/taxonomies.php');
+	}
+
+	function register_menus(){
+		require('lib/menus.php');
+	}
+
+	function register_widgets(){
+		require('lib/widgets.php');
+	}
+
+	// Access data site-wide.
+	function add_to_context( $context ) {
+
+		// Our menu occurs on every page, so we add it to the global context.
+		$context['menu'] = new TimberMenu();
+
+		// This 'site' context below allows you to access main site information like the site title or description.
+		$context['site'] = $this;
+		return $context;
+	}
+
+	// Here you can add your own fuctions to Twig. Don't worry about this section if you don't come across a need for it.
+	// See more here: http://twig.sensiolabs.org/doc/advanced.html
+	function add_to_twig( $twig ) {
+		$twig->addExtension( new Twig_Extension_StringLoader() );
+		$twig->addFilter( 'myfoo', new Twig_Filter_Function( 'myfoo' ) );
+		return $twig;
+	}
+
+}
+
+new cnThemeBasic();

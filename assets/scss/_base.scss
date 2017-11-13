@@ -1,0 +1,24 @@
+* {
+    -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+    background: $black;
+    color: $white;
+}
+::-moz-selection {
+    background: $black;
+    color: $white;
+}
+
+a {
+    @include transition(0.3s all);
+}
+
+a:focus, a:hover {
+    text-decoration: none !important;
+}
+
+*:focus {
+    outline: 0;
+}

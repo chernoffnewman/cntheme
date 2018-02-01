@@ -1,0 +1,99 @@
+# —————————————————————–
+# .gitignore for WordPress
+# Chernoff Newman Base Gitignore
+# adapted from: http://ironco.de/bare-minimum-git/
+# ver 20170703
+#
+# NOTES:
+# The purpose of gitignore files is to ensure that certain files not
+# tracked by Git remain untracked.
+#
+# To ignore uncommitted changes in a file that is already tracked,
+# use `git update-index –assume-unchanged`.
+#
+# To stop tracking a file that is currently tracked,
+# use `git rm –cached`
+#
+# Change Log:
+# 20170823 Include base plugins
+# 20170703 Initial CN theme gitignore setup
+#
+# —————————————————————–
+
+# ignore everything in the root except the “wp-content” directory.
+/*
+!wp-content/
+
+# ignore all files starting with .
+.*
+
+# track this file .gitignore (i.e. do NOT ignore it)
+!.gitignore
+
+# track .editorconfig file (i.e. do NOT ignore it)
+!.editorconfig
+
+# track readme.md in the root (i.e. do NOT ignore it)
+!readme.md
+
+# ignore all files that start with ~
+~*
+
+# ignore OS generated files
+ehthumbs.db
+Thumbs.db
+
+# ignore Editor files
+*.sublime-project
+*.sublime-workspace
+
+# ignore log files and databases
+*.log
+*.sql
+*.sqlite
+
+# ignore compiled files
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# ignore packaged files
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# ignore everything in the “wp-content” directory, except:
+# “mu-plugins” directory
+# “plugins” directory
+# “themes” directory
+wp-content/*
+!wp-content/mu-plugins/
+!wp-content/themes/
+!wp-content/plugins/
+!wp-content/plugins/timber-library
+!wp-content/plugins/wp-migrate-db-pro
+!wp-content/plugins/wp-migrate-db-pro-media-files
+!wp-content/plugins/advanced-custom-fields
+
+# ignore these plugins from the core
+wp-content/plugins/hello.php
+wp-content/plugins/akismet/
+
+# ignore specific themes
+wp-content/themes/twenty*/
+
+# Ignore automatically generated cruft
+*.log
+.sass-cache
+
+# Ignore codekit
+/config.codekit
+/config.codekit3

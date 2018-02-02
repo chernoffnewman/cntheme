@@ -1,12 +1,12 @@
-## CN Base Theme
+# CN Base Theme
 
-# Local Requirements
+## Local Requirements
 node  
 npm  
 composer  
 wp-cli  
 
-# Local Install Process
+## Local Install Process
 Create empty directory for WP  
 Clone theme into folder  
 Open wp-cli.yaml  

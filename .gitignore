@@ -20,6 +20,9 @@
 #
 # —————————————————————–
 
+# ignore base index.php
+/index.php
+
 # ignore everything in the root except the “wp-content” directory.
 /*
 !wp-content/
@@ -30,11 +33,7 @@
 # track these (i.e. do NOT ignore it)
 !.gitignore
 !wp-cli.yml
-
-# track .editorconfig file (i.e. do NOT ignore it)
 !.editorconfig
-
-# track readme.md in the root (i.e. do NOT ignore it)
 !readme.md
 
 # ignore all files that start with ~

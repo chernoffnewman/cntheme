@@ -1,0 +1,18 @@
+url: <LOCALURL>
+user: cnadmin
+core skip-plugins:
+  - hello
+core skip-themes:
+  - twentyfifteen
+  - twentysixteen
+  - twentyseventeen
+core download:
+  locale: en_US
+core config:
+    dbname: <DBNAME>
+    dbuser: root
+    dbpass:
+core install:
+    title: <TITLE>
+    admin_user: cnadmin
+    admin_email: <ADMIN_EMAIL>

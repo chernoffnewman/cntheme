@@ -27,8 +27,9 @@
 # ignore all files starting with .
 .*
 
-# track this file .gitignore (i.e. do NOT ignore it)
+# track these (i.e. do NOT ignore it)
 !.gitignore
+!wp-cli.yml
 
 # track .editorconfig file (i.e. do NOT ignore it)
 !.editorconfig
@@ -97,3 +98,7 @@ wp-content/themes/twenty*/
 # Ignore codekit
 /config.codekit
 /config.codekit3
+
+# generated
+node_modules
+vendor

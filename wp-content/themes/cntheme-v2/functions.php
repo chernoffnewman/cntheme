@@ -63,7 +63,6 @@ class cnThemeBasic extends TimberSite {
 	// See more here: http://twig.sensiolabs.org/doc/advanced.html
 	function add_to_twig( $twig ) {
 		$twig->addExtension( new Twig_Extension_StringLoader() );
-		$twig->addFilter( 'myfoo', new Twig_Filter_Function( 'myfoo' ) );
 		return $twig;
 	}
 

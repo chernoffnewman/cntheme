@@ -1,4 +1,5 @@
 {
-    "/assets/js/site.js": "/assets/js/site.js",
-    "/assets/css/style.css": "/assets/css/style.css"
+    "/assets/css/style.css": "/assets/css/style.css",
+    "/assets/js/head.js": "/assets/js/head.js",
+    "/assets/js/foot.js": "/assets/js/foot.js"
 }

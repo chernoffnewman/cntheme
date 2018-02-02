@@ -101,3 +101,4 @@ wp-content/themes/twenty*/
 # generated
 node_modules
 vendor
+modernizr-bundle.js

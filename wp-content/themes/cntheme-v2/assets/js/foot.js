@@ -1,1 +1,5 @@
-jQuery(document).ready(function(e){});
+jQuery(document).ready(function($) {
+
+   //Scripts Go Here...
+
+});
